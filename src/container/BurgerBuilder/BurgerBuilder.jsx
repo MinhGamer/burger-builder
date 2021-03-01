@@ -4,8 +4,29 @@ import BurgerIngredients from '../../components/BurgerIngredients/BurgerIngredie
 
 export default class BurgerBuilder extends Component {
   state = {
-    ingredients: { meat: 1, cheese: 2, bacon: 1, salad: 1 },
+    ingredients: { meat: 0, cheese: 1, bacon: 1, salad: 1 },
     price: 3,
+  };
+
+  onIncrementIngredient = (type) => {
+    if (!type) return;
+
+    const updateIngredients = { ...this.state.ingredients };
+    updateIngredients[type]++;
+    this.setState({
+      ingredients: updateIngredients,
+    });
+  };
+
+  onDecrementIngredient = (type) => {
+    if (!type) return;
+    if (this.state.ingredients[type] === 0) return;
+
+    const updateIngredients = { ...this.state.ingredients };
+    updateIngredients[type]--;
+    this.setState({
+      ingredients: updateIngredients,
+    });
   };
 
   render() {
@@ -13,7 +34,11 @@ export default class BurgerBuilder extends Component {
       <React.Fragment>
         Burger Builder
         <BurgerIngredients ingredients={this.state.ingredients} />
-        <BurgerControls />
+        <BurgerControls
+          onIncrementIngredient={this.onIncrementIngredient}
+          onDecrementIngredient={this.onDecrementIngredient}
+          ingredients={this.state.ingredients}
+        />
       </React.Fragment>
     );
   }

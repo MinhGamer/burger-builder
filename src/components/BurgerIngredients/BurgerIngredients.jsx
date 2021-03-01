@@ -2,9 +2,7 @@ import React from 'react';
 
 import styled from './BurgerIngredients.module.css';
 
-const upperCaseFirstLetter = (string) => {
-  return string.substring(0, 1).toUpperCase() + string.substring(1);
-};
+import { upperCaseFirstLetter } from '../../helpers/helpers';
 
 export default function BurgerIngredients(props) {
   const { ingredients } = props;
