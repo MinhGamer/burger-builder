@@ -1,8 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
+import BurgerBuilder from './container/BurgerBuilder/BurgerBuilder';
 
 function App() {
-  return <div>Hello</div>;
+  return (
+    <div>
+      <BurgerBuilder />
+    </div>
+  );
 }
 
 export default App;
