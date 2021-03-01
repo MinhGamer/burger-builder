@@ -39,6 +39,13 @@
   animation: enable 0.3s linear;
 }
 
+.Price {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 1rem;
+  color: #d4d3dd;
+}
+
 @keyframes enable {
   0% {
     transform: scale(1);

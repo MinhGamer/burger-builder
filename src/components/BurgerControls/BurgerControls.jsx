@@ -6,7 +6,13 @@ import { upperCaseFirstLetter } from '../../helpers/helpers';
 import styled from './BurgerControls.module.css';
 
 export default function BurgerControls(props) {
-  const { ingredients, onIncrementIngredient, onDecrementIngredient } = props;
+  const {
+    ingredients,
+    onIncrementIngredient,
+    onDecrementIngredient,
+    price,
+    onOrderBurger,
+  } = props;
 
   const renderControls = [];
 
@@ -24,8 +30,11 @@ export default function BurgerControls(props) {
 
   return (
     <div className={styled.BuildControls}>
+      <div className={styled.Price}>Price: {price} $</div>
       {renderControls}
-      <button className={styled.OrderButton}>ORDER NOW</button>
+      <button onClick={onOrderBurger} className={styled.OrderButton}>
+        ORDER NOW
+      </button>
     </div>
   );
 }
