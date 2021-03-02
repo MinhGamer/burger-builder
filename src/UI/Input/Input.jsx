@@ -5,10 +5,24 @@ import { upperCaseFirstLetter } from '../../helpers/helpers';
 import styled from './Input.module.css';
 
 export default function Input(props) {
-  const { label, elementType, elementConfig, value, onChange } = props;
+  const {
+    label,
+    elementType,
+    elementConfig,
+    value,
+    onChange,
+    isValid,
+    isTouched,
+    onFocus,
+  } = props;
 
   switch (elementType) {
     case 'input':
+      let styedValid = '';
+      if (isTouched) {
+        styedValid = isValid ? 'Valid' : 'Invalid';
+      }
+
       return (
         <React.Fragment>
           <label className={styled.Label}>{label}</label>
@@ -16,7 +30,8 @@ export default function Input(props) {
             onChange={onChange}
             type={elementConfig.type}
             value={value}
-            className={styled.InputElement}
+            onFocus={onFocus}
+            className={`${styled.InputElement} ${styled[styedValid]}`}
           />
         </React.Fragment>
       );

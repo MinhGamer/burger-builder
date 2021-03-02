@@ -16,9 +16,13 @@ export default class ContactForm extends Component {
           type: 'text',
         },
         elementType: 'input',
-        validate: {},
-        isValid: false,
+        validate: {
+          isName: true,
+          isRequired: true,
+        },
+        isValid: true,
         value: '',
+        isTouched: false,
       },
       email: {
         label: 'email',
@@ -26,9 +30,13 @@ export default class ContactForm extends Component {
           type: 'email',
         },
         elementType: 'input',
-        validate: {},
-        isValid: false,
+        validate: {
+          isEmail: true,
+          isRequired: true,
+        },
+        isValid: true,
         value: '',
+        isTouched: false,
       },
       address: {
         label: 'address',
@@ -36,9 +44,11 @@ export default class ContactForm extends Component {
         elementConfig: {
           type: 'text',
         },
+        validate: {
+          isRequired: true,
+        },
         elementType: 'input',
-        validate: {},
-        isValid: false,
+        isValid: true,
         value: '',
       },
       method: {
@@ -48,26 +58,65 @@ export default class ContactForm extends Component {
           options: ['fastest', 'cheapest', 'normal'],
         },
         validate: {},
-        isValid: false,
-        value: '',
+        isValid: true,
+        value: 'fastest',
       },
     },
-    isFormValid: false,
+    isFormValid: true,
   };
 
-  onElementChange = (e, label) => {
-    // console.log(e.target.value, label);
+  onElementChange = (e, fieldName) => {
+    const fieldValue = e.target.value;
 
     // clone element in form
     const form = { ...this.state.contactForm };
-    const inputEle = { ...form[label] };
+    const inputEle = { ...form[fieldName] };
 
     //pass value
-    inputEle.value = e.target.value;
+    inputEle.value = fieldValue;
+
+    //validate
+    inputEle.isValid = this.validate(fieldValue, inputEle.validate);
 
     //update form
-    form[label] = inputEle;
+    form[fieldName] = inputEle;
 
+    this.setState({
+      contactForm: form,
+    });
+  };
+
+  validate = (fieldValue, validate) => {
+    let isValid = true;
+
+    if (validate.isName) {
+      isValid &= /^[a-zA-Z]+$/.test(fieldValue);
+    }
+
+    if (validate.isEmail) {
+      isValid &= /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        fieldValue
+      );
+    }
+
+    if (validate.required) {
+      isValid &= fieldValue.trim() !== '';
+    }
+
+    return isValid;
+  };
+
+  onElementTouched = (e, fieldName) => {
+    // clone form
+    const form = { ...this.state.contactForm };
+    const field = { ...form[fieldName] };
+
+    //set touched to true and validate
+    field.isTouched = true;
+    field.value = e.target.value;
+    field.isValid = this.validate(field.value, field.validate);
+
+    form[fieldName] = field;
     this.setState({
       contactForm: form,
     });
@@ -86,6 +135,9 @@ export default class ContactForm extends Component {
           elementType={form[inputEle].elementType}
           elementConfig={form[inputEle].elementConfig}
           value={form[inputEle].value}
+          isValid={form[inputEle].isValid}
+          isTouched={form[inputEle].isTouched}
+          onFocus={(e) => this.onElementTouched(e, form[inputEle].label)}
           onChange={(e) => this.onElementChange(e, form[inputEle].label)}
         />
       );
