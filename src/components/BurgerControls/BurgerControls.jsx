@@ -8,8 +8,8 @@ import styled from './BurgerControls.module.css';
 export default function BurgerControls(props) {
   const {
     ingredients,
-    onIncrementIngredient,
-    onDecrementIngredient,
+    addIngredient,
+    removeIngredient,
     price,
     onOrderBurger,
   } = props;
@@ -23,8 +23,8 @@ export default function BurgerControls(props) {
     renderControls.push(
       <BurgerControl
         IsDisabled={ingredients[ingKey] === 0 ? true : false}
-        onIncrementIngredient={() => onIncrementIngredient(ingKey)}
-        onDecrementIngredient={() => onDecrementIngredient(ingKey)}
+        addIngredient={() => addIngredient(ingKey)}
+        removeIngredient={() => removeIngredient(ingKey)}
         label={upperCaseFirstLetter(ingKey)}
         key={ingKey}
       />

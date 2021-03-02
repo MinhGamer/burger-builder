@@ -5,7 +5,9 @@ import styled from './ContactForm.module.css';
 import Input from '../../UI/Input/Input';
 import Button from '../../UI/Button/Button';
 
+import axios from 'axios';
 import { upperCaseFirstLetter } from '../../helpers/helpers';
+import { URL } from '../../api/api';
 
 export default class ContactForm extends Component {
   state = {
@@ -124,9 +126,23 @@ export default class ContactForm extends Component {
 
   onCancleOrder = (e) => {
     e.preventDefault();
-
-    console.log(this.props);
     this.props.history.push('/');
+  };
+
+  onSubmitOrder = (e) => {
+    e.preventDefault();
+
+    const form = this.state.contactForm;
+    const order = {
+      customer: {
+        name: form.name.value,
+      },
+    };
+
+    axios
+      .post(`${URL}/orders.json`, order)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   render() {
@@ -155,7 +171,9 @@ export default class ContactForm extends Component {
         <h1>Contact Form</h1>
         {renderForm}
         <div>
-          <Button btnType='Success'>ORDER</Button>
+          <Button clicked={this.onSubmitOrder} btnType='Success'>
+            ORDER
+          </Button>
           <Button clicked={this.onCancleOrder} btnType='Danger'>
             CANCLE
           </Button>
