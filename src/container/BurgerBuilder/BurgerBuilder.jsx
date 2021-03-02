@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BurgerControls from '../../components/BurgerControls/BurgerControls';
 import BurgerIngredients from '../../components/BurgerIngredients/BurgerIngredients';
-import Checkout from '../../components/Checkout/Checkout';
+import ModalSummary from '../../components/ModalSummary/ModalSummary';
 import Modal from '../../UI/Modal/Modal';
 
 const MENU_PRICE = { meat: 3.2, cheese: 2.6, bacon: 2.8, salad: 0.7 };
@@ -68,7 +68,10 @@ export default class BurgerBuilder extends Component {
         <Modal
           isShowed={this.state.isOrdering}
           backdropClicked={this.onCancleOrder}>
-          <Checkout />
+          <ModalSummary
+            ingredients={this.state.ingredients}
+            onCancleOrder={this.onCancleOrder}
+          />
         </Modal>
         <BurgerIngredients ingredients={this.state.ingredients} />
         <BurgerControls

@@ -1,0 +1,32 @@
+.Title {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.Ingredient {
+  border-radius: 15px;
+  font-size: 1rem;
+  color: #ffffff;
+  width: 40%;
+  margin: 1rem auto;
+  padding: 0.3rem;
+  font-weight: 700;
+}
+
+.Meat {
+  background: linear-gradient(#7f3608, #702e05);
+}
+
+.Cheese {
+  background: linear-gradient(#f4d004, #d6bb22);
+  color: #000000;
+}
+
+.Salad {
+  background: linear-gradient(#228c1d, #91ce50);
+  color: #000000;
+}
+
+.Bacon {
+  background: linear-gradient(#bf3813, #c45e38);
+}
