@@ -122,6 +122,13 @@ export default class ContactForm extends Component {
     });
   };
 
+  onCancleOrder = (e) => {
+    e.preventDefault();
+
+    console.log(this.props);
+    this.props.history.push('/');
+  };
+
   render() {
     const renderForm = [];
 
@@ -149,7 +156,9 @@ export default class ContactForm extends Component {
         {renderForm}
         <div>
           <Button btnType='Success'>ORDER</Button>
-          <Button btnType='Danger'>CANCLE</Button>
+          <Button clicked={this.onCancleOrder} btnType='Danger'>
+            CANCLE
+          </Button>
         </div>
       </form>
     );

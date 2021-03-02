@@ -7,7 +7,9 @@ import NavigationItem from './NavigationItem/NavigationItem';
 export default function Navigation() {
   return (
     <nav className={styled.Navigation}>
-      <NavigationItem link='/'>Burger</NavigationItem>
+      <NavigationItem link='/'>My Burger</NavigationItem>
+      <NavigationItem link='/contact-form'>Check out</NavigationItem>
+      <NavigationItem link='/orders'>Orders</NavigationItem>
     </nav>
   );
 }

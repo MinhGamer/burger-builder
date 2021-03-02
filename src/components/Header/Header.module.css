@@ -11,9 +11,12 @@
   padding: 0 20px;
   box-sizing: border-box;
   z-index: 90;
-  margin-bottom: 5rem;
 }
 
 .Header nav {
   height: 100%;
+}
+
+.Logo {
+  width: 15%;
 }

@@ -4,6 +4,8 @@ import BurgerIngredients from '../../components/BurgerIngredients/BurgerIngredie
 import ModalSummary from '../../components/ModalSummary/ModalSummary';
 import Modal from '../../UI/Modal/Modal';
 
+import styled from './BurgerBuilder.module.css';
+
 const MENU_PRICE = { meat: 3.2, cheese: 2.6, bacon: 2.8, salad: 0.7 };
 
 export default class BurgerBuilder extends Component {
@@ -61,16 +63,22 @@ export default class BurgerBuilder extends Component {
     });
   };
 
+  onContinueOrder = () => {
+    this.props.history.push('/contact-form');
+  };
+
   render() {
     return (
-      <React.Fragment>
+      <div className={styled.BurgerBuilder}>
         {/* modal show when click order burger */}
         <Modal
           isShowed={this.state.isOrdering}
           backdropClicked={this.onCancleOrder}>
           <ModalSummary
+            price={this.state.price}
             ingredients={this.state.ingredients}
             onCancleOrder={this.onCancleOrder}
+            onContinueOrder={this.onContinueOrder}
           />
         </Modal>
         <BurgerIngredients ingredients={this.state.ingredients} />
@@ -81,7 +89,7 @@ export default class BurgerBuilder extends Component {
           ingredients={this.state.ingredients}
           onOrderBurger={this.onOrderBurger}
         />
-      </React.Fragment>
+      </div>
     );
   }
 }

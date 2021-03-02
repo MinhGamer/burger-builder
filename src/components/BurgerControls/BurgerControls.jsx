@@ -16,7 +16,10 @@ export default function BurgerControls(props) {
 
   const renderControls = [];
 
+  let totalIngredients = 0;
+
   for (let ingKey in ingredients) {
+    totalIngredients += ingredients[ingKey];
     renderControls.push(
       <BurgerControl
         IsDisabled={ingredients[ingKey] === 0 ? true : false}
@@ -32,7 +35,10 @@ export default function BurgerControls(props) {
     <div className={styled.BuildControls}>
       <div className={styled.Price}>Price: {price} $</div>
       {renderControls}
-      <button onClick={onOrderBurger} className={styled.OrderButton}>
+      <button
+        disabled={totalIngredients === 0 ? true : false}
+        onClick={onOrderBurger}
+        className={styled.OrderButton}>
         ORDER NOW
       </button>
     </div>
