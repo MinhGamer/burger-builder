@@ -5,9 +5,8 @@ import styled from './ContactForm.module.css';
 import Input from '../../UI/Input/Input';
 import Button from '../../UI/Button/Button';
 
-import axios from 'axios';
 import { upperCaseFirstLetter } from '../../helpers/helpers';
-import { URL } from '../../api/api';
+import { callApi } from '../../api/api';
 import { connect } from 'react-redux';
 
 class ContactForm extends Component {
@@ -161,8 +160,11 @@ class ContactForm extends Component {
       price: this.props.price,
     };
 
-    axios
-      .post(`${URL}/orders.json`, order)
+    // axios
+    //   .post(`${URL}/orders.json`, order)
+    //   .then((res) => console.log(res))
+    //   .catch((err) => console.log(err));
+    callApi('orders', 'POST', order)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };

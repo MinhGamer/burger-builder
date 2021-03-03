@@ -6,7 +6,6 @@
   box-shadow: 0 0 2px 1px #ccc;
   padding: 0.7rem;
   position: relative;
-  height: 100px;
 }
 
 .Title {
@@ -19,7 +18,7 @@
 .Price {
   font-size: 1.5rem;
   font-weight: 700;
-  margin-top: 1rem;
+  margin-top: 1.7rem;
   margin-bottom: 0;
   color: #203a43;
 }

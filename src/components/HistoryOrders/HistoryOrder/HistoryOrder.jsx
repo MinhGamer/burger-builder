@@ -5,16 +5,15 @@ import { upperCaseFirstLetter } from '../../../helpers/helpers';
 import Button from '../../../UI/Button/Button';
 
 export default function Order(props) {
-  const { order, price } = props;
+  const { price, onDeleteOrder } = props;
   const { ingredients } = props.order;
-  console.log(ingredients);
 
   const renderIngredients = [];
 
   for (let ingKey in ingredients) {
     const Ingkey = upperCaseFirstLetter(ingKey);
     const ingELe = (
-      <span className={`${styled[Ingkey]} ${styled.Ingredient}`}>
+      <span key={ingKey} className={`${styled[Ingkey]} ${styled.Ingredient}`}>
         {Ingkey} - {ingredients[ingKey]}
       </span>
     );
@@ -27,7 +26,9 @@ export default function Order(props) {
       {renderIngredients}
       <p className={styled.Price}>Price: {price} $</p>
       <div className={styled.ModifyBtn}>
-        <Button btnType='Danger'>Delete</Button>
+        <Button clicked={onDeleteOrder} btnType='Danger'>
+          Delete
+        </Button>
         <Button btnType='Success'>Update</Button>
       </div>
     </div>
