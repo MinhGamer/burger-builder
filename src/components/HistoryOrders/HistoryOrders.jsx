@@ -31,8 +31,6 @@ class HistoryOrders extends Component {
           orders.push(order);
         }
 
-        console.log(orders);
-
         this.setState({
           orders,
         });

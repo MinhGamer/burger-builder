@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 
 import styled from './ContactForm.module.css';
 
 import Input from '../../UI/Input/Input';
 import Button from '../../UI/Button/Button';
+import Modal from '../../UI/Modal/Modal';
 
 import { upperCaseFirstLetter } from '../../helpers/helpers';
 import { callApi } from '../../api/api';
@@ -65,6 +66,7 @@ class ContactForm extends Component {
       },
     },
     isFormValid: true,
+    isSubmitted: false,
   };
 
   componentDidMount() {
@@ -146,27 +148,55 @@ class ContactForm extends Component {
     this.props.history.push('/');
   };
 
+  resetForm = () => {
+    const form = { ...this.state.contactForm };
+    for (let field in form) {
+      form[field].value = '';
+    }
+
+    this.setState({
+      contactForm: form,
+    });
+  };
+
   onSubmitOrder = (e) => {
     e.preventDefault();
 
-    const form = this.state.contactForm;
+    const { name, email, address } = this.state.contactForm;
     const order = {
       customer: {
-        name: form.name.value,
-        email: form.email.value,
-        address: form.address.value,
+        name: name.value,
+        email: email.value,
+        address: address.value,
       },
       ingredients: this.props.ingredients,
       price: this.props.price,
     };
 
-    // axios
-    //   .post(`${URL}/orders.json`, order)
-    //   .then((res) => console.log(res))
-    //   .catch((err) => console.log(err));
+    this.resetForm();
+
     callApi('orders', 'POST', order)
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          isSubmitted: true,
+        });
+      })
       .catch((err) => console.log(err));
+  };
+
+  renderSubmittedSuccessModal = () => {
+    return (
+      <Modal
+        isShowed={this.state.isSubmitted}
+        backdropClicked={this.goToHomePage}>
+        <h1>Your order is completed!</h1>
+      </Modal>
+    );
+  };
+
+  goToHomePage = () => {
+    this.props.history.push('/');
   };
 
   render() {
@@ -192,6 +222,9 @@ class ContactForm extends Component {
 
     return (
       <form className={styled.ContactForm}>
+        {/* //render when submit succees */}
+        {this.renderSubmittedSuccessModal()}
+
         <h1>Contact Form</h1>
         {renderForm}
         <div>
