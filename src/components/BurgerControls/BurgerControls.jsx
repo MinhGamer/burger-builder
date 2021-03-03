@@ -12,6 +12,7 @@ export default function BurgerControls(props) {
     removeIngredient,
     price,
     onOrderBurger,
+    isUpdateMode,
   } = props;
 
   const renderControls = [];
@@ -39,7 +40,7 @@ export default function BurgerControls(props) {
         disabled={totalIngredients === 0 ? true : false}
         onClick={onOrderBurger}
         className={styled.OrderButton}>
-        ORDER NOW
+        {isUpdateMode ? 'UPDATE' : 'ORDER NOW'}
       </button>
     </div>
   );

@@ -1,9 +1,9 @@
-import IngReducer from './reducers/IngredientsReducer';
+import OrderReducer from './reducers/OrderReducer';
 
 import { combineReducers } from 'redux';
 
 const rootReducer = combineReducers({
-  IngReducer: IngReducer,
+  OrderReducer,
 });
 
 export default rootReducer;

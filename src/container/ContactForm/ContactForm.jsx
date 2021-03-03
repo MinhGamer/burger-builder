@@ -1,4 +1,5 @@
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import styled from './ContactForm.module.css';
 
@@ -8,7 +9,10 @@ import Modal from '../../UI/Modal/Modal';
 
 import { upperCaseFirstLetter } from '../../helpers/helpers';
 import { callApi } from '../../api/api';
-import { connect } from 'react-redux';
+
+import { setIngredients } from '../../redux/actions/OrderActions';
+
+import Order from '../../model/order';
 
 class ContactForm extends Component {
   state = {
@@ -177,10 +181,12 @@ class ContactForm extends Component {
 
     callApi('orders', 'POST', order)
       .then((res) => {
-        console.log(res);
         this.setState({
           isSubmitted: true,
         });
+
+        //set ingredients back to 0 before switching to home page
+        this.props.setIngredients({ meat: 0, bacon: 0, salad: 0, cheese: 0 });
       })
       .catch((err) => console.log(err));
   };
@@ -242,9 +248,9 @@ class ContactForm extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    ingredients: state.IngReducer.ingredients,
-    price: state.IngReducer.price,
+    ingredients: state.OrderReducer.ingredients,
+    price: state.OrderReducer.price,
   };
 };
 
-export default connect(mapStateToProps, null)(ContactForm);
+export default connect(mapStateToProps, { setIngredients })(ContactForm);

@@ -1,7 +1,7 @@
 import {
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
-  FETCH_INGREDIENTS,
+  SET_INGREDIENTS,
 } from './actionType';
 
 export const addIngredient = (ingType) => {
@@ -22,9 +22,9 @@ export const removeIngredient = (ingType) => {
   };
 };
 
-export const fetchIngredients = (ingredients) => {
+export const setIngredients = (ingredients) => {
   return {
-    type: FETCH_INGREDIENTS,
+    type: SET_INGREDIENTS,
     payload: {
       ingredients,
     },

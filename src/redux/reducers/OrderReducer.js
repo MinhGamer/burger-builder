@@ -1,14 +1,15 @@
-import { act } from 'react-dom/test-utils';
 import {
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
-  FETCH_INGREDIENTS,
+  SET_INGREDIENTS,
 } from '../actions/actionType';
 
 const originState = {
+  id: '',
   ingredients: { meat: 0, cheese: 0, bacon: 0, salad: 0 },
   //base price
   price: 3,
+  customer: {},
   isUpdateMode: false,
 };
 
@@ -20,7 +21,7 @@ const ingredientsReducer = (state = originState, action) => {
   let ingType = '';
 
   switch (action.type) {
-    case FETCH_INGREDIENTS: {
+    case SET_INGREDIENTS: {
       let updateIngredients = action.payload.ingredients;
 
       for (let ingKey in updateIngredients) {
@@ -32,6 +33,7 @@ const ingredientsReducer = (state = originState, action) => {
         ...state,
         ingredients: updateIngredients,
         price: +updatePrice.toFixed(1),
+        isUpdateMode: true,
       };
     }
 

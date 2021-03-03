@@ -7,10 +7,12 @@ import ModalSummary from '../../components/ModalSummary/ModalSummary';
 import Modal from '../../UI/Modal/Modal';
 import styled from './BurgerBuilder.module.css';
 
+import { callApi } from '../../api/api';
+
 import {
   addIngredient,
   removeIngredient,
-} from '../../redux/actions/IngredientActions';
+} from '../../redux/actions/OrderActions';
 
 class BurgerBuilder extends Component {
   state = {
@@ -33,6 +35,17 @@ class BurgerBuilder extends Component {
     this.props.history.push('/contact-form');
   };
 
+  onUpdateOrder = (ingredients, price) => {
+    console.log(ingredients, price);
+
+    const order = {
+      ingredients,
+      price,
+    };
+
+    // callApi(`orders/${}`)
+  };
+
   render() {
     return (
       <div className={styled.BurgerBuilder}>
@@ -45,6 +58,8 @@ class BurgerBuilder extends Component {
             ingredients={this.props.ingredients}
             onCancleOrder={this.onCancleOrder}
             onContinueOrder={this.onContinueOrder}
+            onUpdateOrder={this.onUpdateOrder}
+            isUpdateMode={this.props.isUpdateMode}
           />
         </Modal>
         <BurgerIngredients ingredients={this.props.ingredients} />
@@ -54,6 +69,7 @@ class BurgerBuilder extends Component {
           removeIngredient={this.props.removeIngredient}
           ingredients={this.props.ingredients}
           onOrderBurger={this.onOrderBurger}
+          isUpdateMode={this.props.isUpdateMode}
         />
       </div>
     );
@@ -62,8 +78,9 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    ingredients: state.IngReducer.ingredients,
-    price: state.IngReducer.price,
+    ingredients: state.OrderReducer.ingredients,
+    price: state.OrderReducer.price,
+    isUpdateMode: state.OrderReducer.isUpdateMode,
   };
 };
 
