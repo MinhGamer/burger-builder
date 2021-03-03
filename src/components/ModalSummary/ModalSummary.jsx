@@ -35,9 +35,7 @@ export default function ModalSummary(props) {
       {renderIngredients}
       <p className={styled.Price}>Price: {price}$</p>
       {isUpdateMode ? (
-        <Button
-          clicked={() => onUpdateOrder(ingredients, price)}
-          btnType='Success'>
+        <Button clicked={onUpdateOrder} btnType='Success'>
           UPDATE
         </Button>
       ) : (

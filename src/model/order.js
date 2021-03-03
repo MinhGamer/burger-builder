@@ -7,7 +7,7 @@ class Order {
     // email: string
     // name: string
     // }
-    this._customer = _customer;
+    this.customer = _customer;
 
     // ingredients: {
     //  bacon: number,

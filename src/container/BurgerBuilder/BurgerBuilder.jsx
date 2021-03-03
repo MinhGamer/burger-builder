@@ -7,6 +7,8 @@ import ModalSummary from '../../components/ModalSummary/ModalSummary';
 import Modal from '../../UI/Modal/Modal';
 import styled from './BurgerBuilder.module.css';
 
+import Order from '../../model/order';
+
 import { callApi } from '../../api/api';
 
 import {
@@ -35,15 +37,16 @@ class BurgerBuilder extends Component {
     this.props.history.push('/contact-form');
   };
 
-  onUpdateOrder = (ingredients, price) => {
-    console.log(ingredients, price);
+  onUpdateOrder = () => {
+    const { id, ingredients, price, customer } = this.props.order;
 
-    const order = {
-      ingredients,
-      price,
-    };
+    const updateOrder = new Order(id, customer, ingredients, price);
 
-    // callApi(`orders/${}`)
+    console.log(updateOrder);
+
+    callApi(`orders/${id}`, 'PUT', updateOrder)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   render() {
@@ -54,20 +57,20 @@ class BurgerBuilder extends Component {
           isShowed={this.state.isOrdering}
           backdropClicked={this.onCancleOrder}>
           <ModalSummary
-            price={this.props.price}
-            ingredients={this.props.ingredients}
+            price={this.props.order.price}
+            ingredients={this.props.order.ingredients}
             onCancleOrder={this.onCancleOrder}
             onContinueOrder={this.onContinueOrder}
             onUpdateOrder={this.onUpdateOrder}
             isUpdateMode={this.props.isUpdateMode}
           />
         </Modal>
-        <BurgerIngredients ingredients={this.props.ingredients} />
+        <BurgerIngredients ingredients={this.props.order.ingredients} />
         <BurgerControls
-          price={this.props.price}
+          price={this.props.order.price}
           addIngredient={this.props.addIngredient}
           removeIngredient={this.props.removeIngredient}
-          ingredients={this.props.ingredients}
+          ingredients={this.props.order.ingredients}
           onOrderBurger={this.onOrderBurger}
           isUpdateMode={this.props.isUpdateMode}
         />
@@ -77,9 +80,9 @@ class BurgerBuilder extends Component {
 }
 
 const mapStateToProps = (state) => {
+  // const { id, ingredients, price } = state.OrderReducer.order;
   return {
-    ingredients: state.OrderReducer.ingredients,
-    price: state.OrderReducer.price,
+    order: state.OrderReducer.order,
     isUpdateMode: state.OrderReducer.isUpdateMode,
   };
 };

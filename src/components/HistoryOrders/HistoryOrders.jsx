@@ -8,7 +8,7 @@ import HistoryOrder from './HistoryOrder/HistoryOrder';
 import { callApi } from '../../api/api';
 import Order from '../../model/order';
 
-import { setIngredients } from '../../redux/actions/OrderActions';
+import { updateOrder } from '../../redux/actions/OrderActions';
 
 class HistoryOrders extends Component {
   state = {
@@ -49,17 +49,14 @@ class HistoryOrders extends Component {
       .catch((err) => console.log(err));
   };
 
-  fetchOrder = (id) => {
+  onUpdateOrder = (id) => {
+    //fetch order
     callApi(`orders/${id}`, 'GET')
       .then((res) => {
-        this.props.setIngredients(res.data.ingredients);
+        this.props.updateOrder(res.data);
         this.props.history.push('/');
       })
       .catch((err) => console.log(err));
-  };
-
-  onUpdateOrder = (id) => {
-    this.fetchOrder(id);
   };
 
   renderOrders = () => {
@@ -81,12 +78,13 @@ class HistoryOrders extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const { ingredients, price } = state.OrderReducer.order;
   return {
-    ingredients: state.OrderReducer.ingredients,
-    price: state.OrderReducer.price,
+    ingredients,
+    price,
   };
 };
 
-const mapDispatchToProps = { setIngredients };
+const mapDispatchToProps = { updateOrder };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HistoryOrders);

@@ -1,8 +1,4 @@
-import {
-  ADD_INGREDIENT,
-  REMOVE_INGREDIENT,
-  SET_INGREDIENTS,
-} from './actionType';
+import { ADD_INGREDIENT, REMOVE_INGREDIENT, UPDATE_ORDER } from './actionType';
 
 export const addIngredient = (ingType) => {
   return {
@@ -22,11 +18,11 @@ export const removeIngredient = (ingType) => {
   };
 };
 
-export const setIngredients = (ingredients) => {
+export const updateOrder = (order) => {
   return {
-    type: SET_INGREDIENTS,
+    type: UPDATE_ORDER,
     payload: {
-      ingredients,
+      order,
     },
   };
 };

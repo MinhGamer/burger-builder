@@ -1,44 +1,39 @@
 import {
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
-  SET_INGREDIENTS,
+  UPDATE_ORDER,
 } from '../actions/actionType';
 
 const originState = {
-  id: '',
-  ingredients: { meat: 0, cheese: 0, bacon: 0, salad: 0 },
-  //base price
-  price: 3,
-  customer: {},
+  order: {
+    id: '',
+    ingredients: { meat: 0, cheese: 0, bacon: 0, salad: 0 },
+    //base price
+    price: 3,
+    customer: {},
+  },
   isUpdateMode: false,
 };
 
 const MENU_PRICE = { meat: 3.2, cheese: 2.6, bacon: 2.8, salad: 0.7 };
 
 const ingredientsReducer = (state = originState, action) => {
-  let updateIngredients = { ...state.ingredients };
-  let updatePrice = state.price;
+  let updateIngredients = { ...state.order.ingredients };
+  let updatePrice = state.order.price;
   let ingType = '';
 
   switch (action.type) {
-    case SET_INGREDIENTS: {
-      let updateIngredients = action.payload.ingredients;
-
-      for (let ingKey in updateIngredients) {
-        //total price = ingredients amount * price/unit
-        updatePrice += updateIngredients[ingKey] * MENU_PRICE[ingKey];
-      }
+    case UPDATE_ORDER: {
+      let updateOrder = action.payload.order;
 
       return {
         ...state,
-        ingredients: updateIngredients,
-        price: +updatePrice.toFixed(1),
+        order: { ...updateOrder },
         isUpdateMode: true,
       };
     }
 
     case ADD_INGREDIENT: {
-      updateIngredients = { ...state.ingredients };
       ingType = action.payload.ingType;
       //update ingredients
       updateIngredients[ingType]++;
@@ -47,13 +42,16 @@ const ingredientsReducer = (state = originState, action) => {
       updatePrice += MENU_PRICE[ingType];
       return {
         ...state,
-        ingredients: updateIngredients,
-        price: +updatePrice.toFixed(1),
+        order: {
+          ...state.order,
+          ingredients: updateIngredients,
+          price: +updatePrice.toFixed(1),
+        },
       };
     }
 
     case REMOVE_INGREDIENT: {
-      if (state.ingredients[ingType] === 0) return state;
+      if (state.order.ingredients[ingType] === 0) return state;
       ingType = action.payload.ingType;
 
       //update ingredients
@@ -63,8 +61,11 @@ const ingredientsReducer = (state = originState, action) => {
       updatePrice -= MENU_PRICE[ingType];
       return {
         ...state,
-        ingredients: updateIngredients,
-        price: +updatePrice.toFixed(1),
+        order: {
+          ...state.order,
+          ingredients: updateIngredients,
+          price: +updatePrice.toFixed(1),
+        },
       };
     }
 

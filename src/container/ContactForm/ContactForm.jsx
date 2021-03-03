@@ -10,7 +10,7 @@ import Modal from '../../UI/Modal/Modal';
 import { upperCaseFirstLetter } from '../../helpers/helpers';
 import { callApi } from '../../api/api';
 
-import { setIngredients } from '../../redux/actions/OrderActions';
+import { updateOrder } from '../../redux/actions/OrderActions';
 
 import Order from '../../model/order';
 
@@ -185,8 +185,15 @@ class ContactForm extends Component {
           isSubmitted: true,
         });
 
-        //set ingredients back to 0 before switching to home page
-        this.props.setIngredients({ meat: 0, bacon: 0, salad: 0, cheese: 0 });
+        const resetOrder = new Order(
+          '',
+          {},
+          { meat: 0, cheese: 0, bacon: 0, salad: 0 },
+          0
+        );
+
+        //set order back to 0 before switching to home page
+        this.props.updateOrder(resetOrder);
       })
       .catch((err) => console.log(err));
   };
@@ -247,10 +254,11 @@ class ContactForm extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const { ingredients, price } = state.OrderReducer.order;
   return {
-    ingredients: state.OrderReducer.ingredients,
-    price: state.OrderReducer.price,
+    ingredients,
+    price,
   };
 };
 
-export default connect(mapStateToProps, { setIngredients })(ContactForm);
+export default connect(mapStateToProps, { updateOrder })(ContactForm);
