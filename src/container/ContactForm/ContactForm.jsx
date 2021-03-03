@@ -27,7 +27,7 @@ class ContactForm extends Component {
           isName: true,
           isRequired: true,
         },
-        isValid: true,
+        isValid: false,
         value: '',
         isTouched: false,
       },
@@ -41,7 +41,7 @@ class ContactForm extends Component {
           isEmail: true,
           isRequired: true,
         },
-        isValid: true,
+        isValid: false,
         value: '',
         isTouched: false,
       },
@@ -55,7 +55,7 @@ class ContactForm extends Component {
           isRequired: true,
         },
         elementType: 'input',
-        isValid: true,
+        isValid: false,
         value: '',
       },
       method: {
@@ -69,7 +69,7 @@ class ContactForm extends Component {
         value: 'fastest',
       },
     },
-    isFormValid: true,
+    isFormValid: false,
     isSubmitted: false,
   };
 
@@ -88,7 +88,7 @@ class ContactForm extends Component {
     }
   }
 
-  onElementChange = (e, fieldName) => {
+  onFieldChange = (e, fieldName) => {
     const fieldValue = e.target.value;
 
     // clone element in form
@@ -98,14 +98,21 @@ class ContactForm extends Component {
     //pass value
     inputEle.value = fieldValue;
 
-    //validate
+    //validate field
     inputEle.isValid = this.validate(fieldValue, inputEle.validate);
 
     //update form
     form[fieldName] = inputEle;
 
+    let isFormValid = true;
+    //validate form
+    for (let fieldKey in form) {
+      isFormValid &= form[fieldKey].isValid;
+    }
+
     this.setState({
       contactForm: form,
+      isFormValid,
     });
   };
 
@@ -131,7 +138,7 @@ class ContactForm extends Component {
     return isValid;
   };
 
-  onElementTouched = (e, fieldName) => {
+  onFieldTouched = (e, fieldName) => {
     // clone form
     const form = { ...this.state.contactForm };
     const field = { ...form[fieldName] };
@@ -227,8 +234,8 @@ class ContactForm extends Component {
           value={form[inputEle].value}
           isValid={form[inputEle].isValid}
           isTouched={form[inputEle].isTouched}
-          onFocus={(e) => this.onElementTouched(e, form[inputEle].label)}
-          onChange={(e) => this.onElementChange(e, form[inputEle].label)}
+          onFocus={(e) => this.onFieldTouched(e, form[inputEle].label)}
+          onChange={(e) => this.onFieldChange(e, form[inputEle].label)}
         />
       );
     }
@@ -241,7 +248,11 @@ class ContactForm extends Component {
         <h1>Contact Form</h1>
         {renderForm}
         <div>
-          <Button clicked={this.onSubmitOrder} btnType='Success'>
+          <Button
+            // idDisabled={true}
+            idDisabled={!this.state.isFormValid}
+            clicked={this.onSubmitOrder}
+            btnType='Success'>
             ORDER
           </Button>
           <Button clicked={this.onCancleOrder} btnType='Danger'>
