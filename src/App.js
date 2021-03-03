@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import BurgerBuilder from './container/BurgerBuilder/BurgerBuilder';
 import ContactForm from './container/ContactForm/ContactForm';
-import OrderHistory from './components/OrdersHistory/OrdersHistory';
+import HistoryOrders from './components/HistoryOrders/HistoryOrders';
 import Header from './components/Header/Header';
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
       <Header />
       <Switch>
         <Route path='/contact-form' component={ContactForm} />
-        <Route path='/orders' component={OrderHistory} />
+        <Route path='/history-orders' component={HistoryOrders} />
         <Route path='/' component={BurgerBuilder} />
       </Switch>
     </BrowserRouter>

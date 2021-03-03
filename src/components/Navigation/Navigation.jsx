@@ -9,7 +9,7 @@ export default function Navigation() {
     <nav className={styled.Navigation}>
       <NavigationItem link='/'>My Burger</NavigationItem>
       <NavigationItem link='/contact-form'>Check out</NavigationItem>
-      <NavigationItem link='/orders'>Orders</NavigationItem>
+      <NavigationItem link='/history-orders'>Orders</NavigationItem>
     </nav>
   );
 }

@@ -1,0 +1,58 @@
+.HistoryOrder {
+  width: 80%;
+  margin: 1.5rem auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 2px 1px #ccc;
+  padding: 0.7rem;
+  position: relative;
+  height: 100px;
+}
+
+.Title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2c5364;
+  margin-right: 2rem;
+}
+
+.Price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  margin-bottom: 0;
+  color: #203a43;
+}
+
+.ModifyBtn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.Ingredient {
+  display: inline-block;
+  padding: 0.4rem 0.6rem;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  margin: 0 0.5rem;
+  font-weight: 700;
+}
+
+.Meat {
+  background: linear-gradient(#7f3608, #702e05);
+  color: #ffffff;
+}
+
+.Salad {
+  background: linear-gradient(#228c1d, #91ce50);
+}
+
+.Cheese {
+  background: linear-gradient(#f4d004, #d6bb22);
+}
+
+.Bacon {
+  background: linear-gradient(#bf3813, #c45e38);
+  color: #ffffff;
+}

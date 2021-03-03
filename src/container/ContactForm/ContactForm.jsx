@@ -8,8 +8,9 @@ import Button from '../../UI/Button/Button';
 import axios from 'axios';
 import { upperCaseFirstLetter } from '../../helpers/helpers';
 import { URL } from '../../api/api';
+import { connect } from 'react-redux';
 
-export default class ContactForm extends Component {
+class ContactForm extends Component {
   state = {
     contactForm: {
       name: {
@@ -67,6 +68,21 @@ export default class ContactForm extends Component {
     isFormValid: true,
   };
 
+  componentDidMount() {
+    //if user try to fill the form before building burger
+    //push them to go back to builder page
+    const { ingredients } = this.props;
+
+    const totalIngs = Object.values(ingredients).reduce(
+      (preValue, curValue) => preValue + curValue,
+      0
+    );
+
+    if (totalIngs === 0) {
+      this.props.history.push('/');
+    }
+  }
+
   onElementChange = (e, fieldName) => {
     const fieldValue = e.target.value;
 
@@ -92,7 +108,9 @@ export default class ContactForm extends Component {
     let isValid = true;
 
     if (validate.isName) {
-      isValid &= /^[a-zA-Z]+$/.test(fieldValue);
+      isValid &= /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/.test(
+        fieldValue
+      );
     }
 
     if (validate.isEmail) {
@@ -136,7 +154,11 @@ export default class ContactForm extends Component {
     const order = {
       customer: {
         name: form.name.value,
+        email: form.email.value,
+        address: form.address.value,
       },
+      ingredients: this.props.ingredients,
+      price: this.props.price,
     };
 
     axios
@@ -182,3 +204,12 @@ export default class ContactForm extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    ingredients: state.IngReducer.ingredients,
+    price: state.IngReducer.price,
+  };
+};
+
+export default connect(mapStateToProps, null)(ContactForm);
