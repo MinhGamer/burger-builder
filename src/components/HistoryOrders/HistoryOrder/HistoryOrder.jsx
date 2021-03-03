@@ -11,6 +11,8 @@ export default function Order(props) {
   const renderIngredients = [];
 
   for (let ingKey in ingredients) {
+    if (ingredients[ingKey] === 0) continue;
+
     const Ingkey = upperCaseFirstLetter(ingKey);
     const ingELe = (
       <span key={ingKey} className={`${styled[Ingkey]} ${styled.Ingredient}`}>

@@ -10,9 +10,13 @@ import Order from '../../model/order';
 
 import { updateOrder } from '../../redux/actions/OrderActions';
 
+import { RESULTS_PER_PAGE } from '../../helpers/config';
+import Button from '../../UI/Button/Button';
+
 class HistoryOrders extends Component {
   state = {
     orders: [],
+    page: 1,
   };
 
   componentDidMount() {
@@ -59,21 +63,57 @@ class HistoryOrders extends Component {
       .catch((err) => console.log(err));
   };
 
-  renderOrders = () => {
-    return this.state.orders.map((order) => (
-      <HistoryOrder
-        key={order.id}
-        onDeleteOrder={() => this.onDeleteOrder(order.id)}
-        onUpdateOrder={() => this.onUpdateOrder(order.id)}
-        price={order.price}
-        order={order}
-      />
-    ));
+  renderOrders = (page) => {
+    const start = (page - 1) * RESULTS_PER_PAGE;
+    const end = page * RESULTS_PER_PAGE;
+
+    return this.state.orders
+      .slice(start, end)
+      .map((order) => (
+        <HistoryOrder
+          key={order.id}
+          onDeleteOrder={() => this.onDeleteOrder(order.id)}
+          onUpdateOrder={() => this.onUpdateOrder(order.id)}
+          price={order.price}
+          order={order}
+        />
+      ));
+  };
+
+  pagination = (results) => {
+    const PAGES = results / RESULTS_PER_PAGE;
+
+    //no pagination button
+    if (results < RESULTS_PER_PAGE) {
+    }
   };
 
   render() {
-    this.renderOrders();
-    return <div className={styled.OrdersHistory}>{this.renderOrders()}</div>;
+    const PAGES = Math.ceil(this.state.orders.length / RESULTS_PER_PAGE);
+    const currentPage = this.state.page;
+
+    return (
+      <div className={styled.OrdersHistory}>
+        {this.renderOrders(this.state.page)}
+
+        {this.state.page === 1 ? null : (
+          <Button
+            configStyle={`${styled.PaginationBtn} ${styled.PaginationPrev}`}
+            clicked={() => this.setState({ page: +currentPage - 1 })}
+            btnType='Danger'>
+            Previous
+          </Button>
+        )}
+        {this.state.page === PAGES ? null : (
+          <Button
+            configStyle={`${styled.PaginationBtn} ${styled.PaginationNext}`}
+            clicked={() => this.setState({ page: +currentPage + 1 })}
+            btnType='Danger'>
+            Next
+          </Button>
+        )}
+      </div>
+    );
   }
 }
 

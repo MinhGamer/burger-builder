@@ -1,3 +1,22 @@
 .OrdersHistory {
   margin-top: 4rem;
+  position: relative;
+  height: 500px;
+}
+
+.PaginationBtn {
+  color: dodgerblue;
+  border-radius: 5px;
+}
+
+.PaginationPrev {
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+}
+
+.PaginationNext {
+  position: absolute;
+  bottom: 0;
+  right: 1rem;
 }

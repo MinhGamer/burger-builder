@@ -80,7 +80,6 @@ class BurgerBuilder extends Component {
 }
 
 const mapStateToProps = (state) => {
-  // const { id, ingredients, price } = state.OrderReducer.order;
   return {
     order: state.OrderReducer.order,
     isUpdateMode: state.OrderReducer.isUpdateMode,
