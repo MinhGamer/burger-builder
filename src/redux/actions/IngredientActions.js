@@ -1,4 +1,8 @@
-import { ADD_INGREDIENT, REMOVE_INGREDIENT } from './actionType';
+import {
+  ADD_INGREDIENT,
+  REMOVE_INGREDIENT,
+  FETCH_INGREDIENTS,
+} from './actionType';
 
 export const addIngredient = (ingType) => {
   return {
@@ -14,6 +18,15 @@ export const removeIngredient = (ingType) => {
     type: REMOVE_INGREDIENT,
     payload: {
       ingType,
+    },
+  };
+};
+
+export const fetchIngredients = (ingredients) => {
+  return {
+    type: FETCH_INGREDIENTS,
+    payload: {
+      ingredients,
     },
   };
 };

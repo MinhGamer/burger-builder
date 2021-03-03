@@ -8,6 +8,8 @@ import HistoryOrder from './HistoryOrder/HistoryOrder';
 import { callApi } from '../../api/api';
 import Order from '../../model/order';
 
+import { fetchIngredients } from '../../redux/actions/IngredientActions';
+
 class HistoryOrders extends Component {
   state = {
     orders: [],
@@ -39,8 +41,7 @@ class HistoryOrders extends Component {
   };
 
   onDeleteOrder = (id) => {
-    console.log(id);
-    callApi(`orders.json/${id}`, 'DELETE')
+    callApi(`orders/${id}`, 'DELETE')
       .then((res) => {
         console.log(res);
         this.fetchOrders();
@@ -48,12 +49,26 @@ class HistoryOrders extends Component {
       .catch((err) => console.log(err));
   };
 
+  fetchOrder = (id) => {
+    callApi(`orders/${id}`, 'GET')
+      .then((res) => {
+        this.props.fetchIngredients(res.data.ingredients);
+        this.props.history.push('/');
+      })
+      .catch((err) => console.log(err));
+  };
+
+  onUpdateOrder = (id) => {
+    this.fetchOrder(id);
+  };
+
   renderOrders = () => {
     return this.state.orders.map((order) => (
       <HistoryOrder
         key={order.id}
         onDeleteOrder={() => this.onDeleteOrder(order.id)}
-        price={this.props.price}
+        onUpdateOrder={() => this.onUpdateOrder(order.id)}
+        price={order.price}
         order={order}
       />
     ));
@@ -72,4 +87,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(HistoryOrders);
+const mapDispatchToProps = { fetchIngredients };
+
+export default connect(mapStateToProps, mapDispatchToProps)(HistoryOrders);

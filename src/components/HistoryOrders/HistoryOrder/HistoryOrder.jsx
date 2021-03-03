@@ -5,8 +5,8 @@ import { upperCaseFirstLetter } from '../../../helpers/helpers';
 import Button from '../../../UI/Button/Button';
 
 export default function Order(props) {
-  const { price, onDeleteOrder } = props;
-  const { ingredients } = props.order;
+  const { price, onDeleteOrder, onUpdateOrder } = props;
+  const { id, ingredients } = props.order;
 
   const renderIngredients = [];
 
@@ -22,14 +22,16 @@ export default function Order(props) {
 
   return (
     <div className={styled.HistoryOrder}>
-      <span className={styled.Title}>Ingrediens</span>
+      <span className={styled.Title}>Order No.{id}</span>
       {renderIngredients}
       <p className={styled.Price}>Price: {price} $</p>
       <div className={styled.ModifyBtn}>
         <Button clicked={onDeleteOrder} btnType='Danger'>
           Delete
         </Button>
-        <Button btnType='Success'>Update</Button>
+        <Button clicked={onUpdateOrder} btnType='Success'>
+          Update
+        </Button>
       </div>
     </div>
   );
